@@ -1,11 +1,8 @@
-package prv.zielony.akka.typed.problems.types.problem
+package prv.zielony.akka.typed.types.untyped
 
 import akka.actor.Actor
-import prv.zielony.akka.typed.problems.types.{Role, User}
+import prv.zielony.akka.typed.types.{Role, User}
 
-/**
-  * Created by kamil on 2017-05-17.
-  */
 class AuthorizationActor(roles: Seq[Role]) extends Actor {
 
   override def receive: Receive = {

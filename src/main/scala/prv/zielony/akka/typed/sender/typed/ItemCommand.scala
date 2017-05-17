@@ -1,7 +1,7 @@
-package prv.zielony.akka.typed.problems.sender.solution
+package prv.zielony.akka.typed.sender.typed
 
 import akka.typed.ActorRef
-import prv.zielony.akka.typed.problems.sender.Item
+import prv.zielony.akka.typed.sender.Item
 
 sealed trait ItemCommand
 

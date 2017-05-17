@@ -8,7 +8,6 @@ import org.scalacheck.Gen
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.prop.PropertyChecks
 import org.scalatest.{Matchers, WordSpec}
-import prv.zielony.akka.typed.Application.{CheckNumber, PrimeCountCommand, ReturnAll, checkPrimeBehavior}
 
 class GeneralAkkaTypedTest extends WordSpec with Matchers with PropertyChecks with ScalaFutures {
 

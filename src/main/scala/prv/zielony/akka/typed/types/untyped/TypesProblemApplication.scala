@@ -1,10 +1,10 @@
-package prv.zielony.akka.typed.problems.types.problem
+package prv.zielony.akka.typed.types.untyped
 
 import akka.actor.{ActorSystem, Props}
-import prv.zielony.akka.typed.problems.types.{Group, Role, User}
 import akka.pattern.ask
 import akka.typed.scaladsl.Actor
 import akka.util.Timeout
+import prv.zielony.akka.typed.types.{Group, Role}
 
 import scala.concurrent.Await
 

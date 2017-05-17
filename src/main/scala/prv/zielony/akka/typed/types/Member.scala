@@ -1,4 +1,4 @@
-package prv.zielony.akka.typed.problems.types
+package prv.zielony.akka.typed.types
 
 sealed trait Member {
 

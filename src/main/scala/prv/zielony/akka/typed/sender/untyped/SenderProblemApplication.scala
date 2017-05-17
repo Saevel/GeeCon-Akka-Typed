@@ -1,9 +1,9 @@
-package prv.zielony.akka.typed.problems.sender.problem
+package prv.zielony.akka.typed.sender.untyped
 
 import akka.actor.{ActorSystem, Props}
 import akka.pattern.ask
 import akka.util.Timeout
-import prv.zielony.akka.typed.problems.sender.Item
+import prv.zielony.akka.typed.sender.Item
 
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -19,19 +19,19 @@ object SenderProblemApplication extends App {
 
   // Create repositories with different items.
   val repositories = Seq(
-    actorSystem.actorOf(Props(new RepositoryActor(Seq(
+    actorSystem.actorOf(Props(new Repository(Seq(
       Item("Computer", 7000.0, 0.99),
       Item("Pen", 20.0, 0.8)
     )))),
-    actorSystem.actorOf(Props(new RepositoryActor(Seq(
+    actorSystem.actorOf(Props(new Repository(Seq(
       Item("Pen", 3.00, 0.5),
       Item("Computer", 2500.0, 0.23)
     ))))
   )
 
   // Create two Buyer actors for lowestPrice strategy and highest quallity strategy.
-  val lowestPriceBuyer = actorSystem.actorOf(Props(new BuyerActor(chooseLowestPrice, repositories)))
-  val highestQualityBuyer = actorSystem.actorOf(Props(new BuyerActor(chooseHighestQuality, repositories)))
+  val lowestPriceBuyer = actorSystem.actorOf(Props(new Buyer(chooseLowestPrice, repositories)))
+  val highestQualityBuyer = actorSystem.actorOf(Props(new Buyer(chooseHighestQuality, repositories)))
 
   // Introduce some clutter and ask the actor for the result.
   (0 to 10).foreach(_ => lowestPriceBuyer ! GetItems("Laptop"))

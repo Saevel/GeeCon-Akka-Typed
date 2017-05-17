@@ -1,4 +1,4 @@
-package prv.zielony.akka.typed.problems.sender.problem
+package prv.zielony.akka.typed.sender.untyped
 
 /**
   * Created by kamil on 2017-05-16.

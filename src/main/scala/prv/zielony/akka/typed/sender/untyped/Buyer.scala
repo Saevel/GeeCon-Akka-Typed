@@ -1,9 +1,9 @@
-package prv.zielony.akka.typed.problems.sender.problem
+package prv.zielony.akka.typed.sender.untyped
 
 import akka.actor.{Actor, ActorRef}
 import akka.pattern.ask
 import akka.util.Timeout
-import prv.zielony.akka.typed.problems.sender.Item
+import prv.zielony.akka.typed.sender.Item
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -16,7 +16,7 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * Created by kamil on 2017-05-16.
   */
-class BuyerActor(strategy: (Item, Item) => Item, repositories: Seq[ActorRef])(implicit timeout: Timeout, context: ExecutionContext) extends Actor {
+class Buyer(strategy: (Item, Item) => Item, repositories: Seq[ActorRef])(implicit timeout: Timeout, context: ExecutionContext) extends Actor {
 
   override def receive: Receive = {
 

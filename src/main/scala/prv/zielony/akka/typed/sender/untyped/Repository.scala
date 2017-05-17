@@ -1,11 +1,11 @@
-package prv.zielony.akka.typed.problems.sender.problem
+package prv.zielony.akka.typed.sender.untyped
 
 import akka.actor.Actor
-import prv.zielony.akka.typed.problems.sender.Item
+import prv.zielony.akka.typed.sender.Item
 
 import scala.util.Random
 
-class RepositoryActor(items: Seq[Item]) extends Actor {
+class Repository(items: Seq[Item]) extends Actor {
 
   private def randomSmallInt = Math.abs(Random.nextInt(1000))
 

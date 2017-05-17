@@ -1,15 +1,15 @@
-package prv.zielony.akka.typed.problems.sender.solution
+package prv.zielony.akka.typed.sender.typed
 
 import akka.actor.Scheduler
 import akka.typed.ActorRef
 import akka.typed.scaladsl.Actor.Stateless
 import akka.typed.scaladsl.AskPattern._
 import akka.util.Timeout
-import prv.zielony.akka.typed.problems.sender.Item
+import prv.zielony.akka.typed.sender.Item
 
 import scala.concurrent.{ExecutionContext, Future}
 
-object BuyerActor {
+object Buyer {
 
   def apply(strategy: (Item, Item) => Item)(repositories: Seq[ActorRef[GetItems]])
            (implicit context: ExecutionContext, timeout: Timeout, scheduler: Scheduler) = Stateless[GetOptimalItem]{ (_, command) =>

@@ -1,5 +1,6 @@
 package prv.zielony.akka.typed.fundamentals
 
+import akka.typed.scaladsl.Actor
 import akka.typed.{ActorRef, ActorSystem}
 import akka.typed.scaladsl.Actor.{Empty, Stateless}
 import akka.util.Timeout

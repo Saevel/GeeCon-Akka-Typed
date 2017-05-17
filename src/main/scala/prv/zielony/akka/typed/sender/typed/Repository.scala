@@ -1,9 +1,9 @@
-package prv.zielony.akka.typed.problems.sender.solution
+package prv.zielony.akka.typed.sender.typed
 
 import akka.typed.ScalaDSL.Static
-import prv.zielony.akka.typed.problems.sender.Item
+import prv.zielony.akka.typed.sender.Item
 
-object RepositoryActor {
+object Repository {
 
   def apply(items: Seq[Item]) = Static[GetItems]{ request =>
     request.replyTo ! ItemsFound(items.filter(item => item.kind == request.kind))

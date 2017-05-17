@@ -1,29 +1,16 @@
 package prv.zielony.akka.typed.behaviors.stateful
 
-import akka.typed.ActorRef
+import akka.typed.{ActorRef, Behavior}
 import akka.typed.scaladsl.Actor._
 
-/**
-  * Created by kamil on 2017-05-17.
-  */
-object VendingActor {
+import prv.zielony.akka.typed.behaviors.stateful.VendingMachineInput._
+import prv.zielony.akka.typed.behaviors.stateful.VendingMachineOutput._
 
-  object VendingMachineOutput extends Enumeration {
-    val Return, Item = Value
-  }
+object VendingMachine {
 
-  object VendingMachineInput extends Enumeration {
-    val Order, Payment, Timeout = Value
-  }
+  def apply(client: ActorRef[VendingMachineOutput.Value]) = idleStageBehavior(client)
 
-  import VendingMachineInput._
-  import VendingMachineOutput._
-
-  def apply(client: ActorRef[VendingMachineOutput.Value]) = Stateful[VendingMachineInput.Value]{ (_, command) =>
-    idleStageBehavior(client)
-  }
-
-  private def idleStageBehavior(client: ActorRef[VendingMachineOutput.Value]) = Stateful[VendingMachineInput.Value]{ command =>
+  private def idleStageBehavior(client: ActorRef[VendingMachineOutput.Value]): Behavior[VendingMachineInput.Value] = Stateful[VendingMachineInput.Value]{ (_, command) =>
     command match {
       case Order => orderedStageBehavior(client)
       case Payment => paidStageBehavior(client)
