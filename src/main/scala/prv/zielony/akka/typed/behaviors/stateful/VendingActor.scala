@@ -1,7 +1,5 @@
 package prv.zielony.akka.typed.behaviors.stateful
 
-import java.util
-
 import akka.typed.ActorRef
 import akka.typed.scaladsl.Actor._
 
@@ -14,29 +12,47 @@ object VendingActor {
     val Return, Item = Value
   }
 
-  object VendingMachineProtocol extends Enumeration {
+  object VendingMachineInput extends Enumeration {
     val Order, Payment, Timeout = Value
   }
 
-  import VendingMachineProtocol._
+  import VendingMachineInput._
   import VendingMachineOutput._
 
-  def apply(client: ActorRef[VendingMachineOutput.Value]) = Stateful[VendingMachineProtocol.Value]{ (_, command) =>
-   command match {
-     case Order => orderedStageBehavior(client)
-     case Payment => paidStageBehavior(client)
-     case Timeout => Same[VendingMachineProtocol.Value]
-   }
+  def apply(client: ActorRef[VendingMachineOutput.Value]) = Stateful[VendingMachineInput.Value]{ (_, command) =>
+    idleStageBehavior(client)
   }
 
-  private def orderedStageBehavior(clientActor: ActorRef[VendingMachineOutput.Value]) = Stateful[VendingMachineProtocol.Value]{ (_, command) =>
+  private def idleStageBehavior(client: ActorRef[VendingMachineOutput.Value]) = Stateful[VendingMachineInput.Value]{ command =>
     command match {
-      case Order => Same[VendingMachineProtocol.Value]
-      case Payment => ???
+      case Order => orderedStageBehavior(client)
+      case Payment => paidStageBehavior(client)
+      case Timeout => Same[VendingMachineInput.Value]
     }
   }
 
-  private def paidStageBehavior(client: ActorRef[VendingMachineOutput.Value]) = Stateful[VendingMachineProtocol.Value]{ (_, command) =>
-    ???
+  private def orderedStageBehavior(client: ActorRef[VendingMachineOutput.Value]) = Stateful[VendingMachineInput.Value]{ (_, command) =>
+    command match {
+      case Order => Same[VendingMachineInput.Value]
+      case Payment => {
+        client ! Item
+        idleStageBehavior(client)
+      }
+      case Timeout => idleStageBehavior(client)
+    }
+  }
+
+  private def paidStageBehavior(client: ActorRef[VendingMachineOutput.Value]) = Stateful[VendingMachineInput.Value]{ (_, command) =>
+    command match {
+      case Order => {
+        client ! Item
+        idleStageBehavior(client)
+      }
+      case Payment => Same[VendingMachineInput.Value]
+      case Timeout => {
+        client ! Return
+        idleStageBehavior(client)
+      }
+    }
   }
 }
