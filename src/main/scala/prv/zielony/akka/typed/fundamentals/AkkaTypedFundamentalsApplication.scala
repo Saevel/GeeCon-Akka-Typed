@@ -1,8 +1,7 @@
 package prv.zielony.akka.typed.fundamentals
 
-import akka.typed.scaladsl.Actor
+import akka.typed.scaladsl.Actor._
 import akka.typed.{ActorRef, ActorSystem}
-import akka.typed.scaladsl.Actor.{Empty, Stateless}
 import akka.util.Timeout
 
 import scala.concurrent.Future
@@ -18,18 +17,13 @@ object AkkaTypedFundamentalsApplication extends App {
   implicit val timeout: Timeout = 3 millis
 
   // Create a simple, static behavior for the actor.
-  val squareBehavior = Stateless[Int]{ (_, i) =>
+  val squareBehavior = immutable[Int]{ (_, i) =>
     println(s"$i squared is: ${i * i}")
+    same
   }
 
   // Initialize a typed ActorSystem with empty guardian behavior
-  val system: ActorSystem[Nothing] = ActorSystem("SquareSystem", Empty)
+  val system: ActorSystem[Int] = ActorSystem("SquareSystem", squareBehavior)
 
-  // Wrap behavior in an actor and get a typed ActorRef to it.
-  val typedReference: Future[ActorRef[Int]] = system.systemActorOf(squareBehavior, "SquareActor")
-
-  typedReference.map(ref =>
-    // Send messages to your actor via the typed ActorRef.
-    (0 to 10).foreach(i => ref ! i)
-  )
+  (0 to 10).foreach(i => system ! i)
 }

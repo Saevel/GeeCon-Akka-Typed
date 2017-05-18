@@ -2,7 +2,7 @@ package prv.zielony.akka.typed.behaviors.stateful
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import akka.typed.ActorSystem
-import akka.typed.scaladsl.Actor.Stateless
+import akka.typed.scaladsl.Actor._
 import akka.util.Timeout
 import prv.zielony.akka.typed.behaviors.tap.LoggedActor
 import prv.zielony.akka.typed.behaviors.stateful.VendingMachineInput._
@@ -15,8 +15,9 @@ object VendingMachineSimulation extends App {
 
   implicit val timeout: Timeout = 300 millis
 
-  val client = ActorSystem("Client", Stateless[VendingMachineOutput.Value]{ (_, output) =>
+  val client = ActorSystem("Client", immutable[VendingMachineOutput.Value]{ (_, output) =>
     println(s"Vending machine output: $output")
+    same
   })
 
   val vendingMachineFuture = client.systemActorOf(LoggedActor(VendingMachine(client)), "VendingMachine")

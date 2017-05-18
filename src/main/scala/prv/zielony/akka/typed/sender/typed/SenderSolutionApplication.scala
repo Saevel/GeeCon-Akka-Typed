@@ -14,7 +14,7 @@ object SenderSolutionApplication extends App {
 
   implicit val timeout: Timeout = 10 seconds
 
-  val actorSystem = ActorSystem("SenderSolution", Empty)
+  val actorSystem = ActorSystem("SenderSolution", empty)
 
   implicit val scheduler = actorSystem.scheduler
 
