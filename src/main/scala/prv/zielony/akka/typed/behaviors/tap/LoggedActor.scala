@@ -8,7 +8,7 @@ object LoggedActor {
 
   def apply[T](behavior: Behavior[T]) = Actor.tap[T](
     {(ctx: ActorContext[T], message: T) => println(s"Received message: $message")},
-    {(ctx: ActorContext[T], signal: Signal) => {}},
+    {(ctx: ActorContext[T], signal: Signal) => Actor.ignore},
     behavior
   )
 }

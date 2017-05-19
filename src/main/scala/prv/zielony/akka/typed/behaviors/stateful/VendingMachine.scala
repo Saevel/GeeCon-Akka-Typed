@@ -14,13 +14,13 @@ object VendingMachine {
     command match {
       case Order => orderedStageBehavior(client)
       case Payment => paidStageBehavior(client)
-      case Timeout => same[VendingMachineInput.Value]
+      case Timeout => same
     }
   }
 
   private def orderedStageBehavior(client: ActorRef[VendingMachineOutput.Value]) = immutable[VendingMachineInput.Value]{ (_, command) =>
     command match {
-      case Order => same[VendingMachineInput.Value]
+      case Order => same
       case Payment => {
         client ! Item
         idleStageBehavior(client)
@@ -35,7 +35,7 @@ object VendingMachine {
         client ! Item
         idleStageBehavior(client)
       }
-      case Payment => same[VendingMachineInput.Value]
+      case Payment => same
       case Timeout => {
         client ! Return
         idleStageBehavior(client)

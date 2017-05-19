@@ -19,6 +19,7 @@ object AkkaTypedFundamentalsApplication extends App {
   // Create a simple, static behavior for the actor.
   val squareBehavior = immutable[Int]{ (_, i) =>
     println(s"$i squared is: ${i * i}")
+    // Use the same behavior the next time
     same
   }
 
